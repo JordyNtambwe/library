@@ -20,3 +20,32 @@ function addBookToLibrary (title, author, pages, read) {
     myLibrary.push(newBook)
     return newBook;
   };
+
+function displayBooks () {
+  const container = document.getElementById('container');
+  container.textContent = '';
+  myLibrary.forEach((book) => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    const title = document.createElement('h3');
+    title.classList.add('title');
+    title.textContent = book.title;
+    const author = document.createElement('h3');
+    author.classList.add('author');
+    author.textContent = book.author;
+    const pages = document.createElement('h3');
+    pages.classList.add('pages');
+    pages.textContent = book.pages;
+    const readNotRead = document.createElement('button');
+    readNotRead.textContent = readBook;
+    readNotRead.addEventListener('click', () => {
+      book.read = !book.read
+      displayBooks();
+    });
+    card.appendChild(title);
+    card.appendChild(author);
+    card.appendChild(pages);
+    card.appendChild(read);
+    container.appendChild(card);
+  })
+};
