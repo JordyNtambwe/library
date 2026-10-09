@@ -1,4 +1,4 @@
-const myLibrary = [];
+let myLibrary = [];
 
 function Book (title, author, pages, read) {
 
@@ -15,15 +15,12 @@ function Book (title, author, pages, read) {
     const readBook = this.read ? 'read' : 'not read yet';
     return `${this.title} by ${this.author}, ${this.pages} pages, ${readBook}`;
   };
-
 };
 
 function addBookToLibrary (title, author, pages, read) {
-
   const newBook = new Book (title, author, pages, read);
     myLibrary.push(newBook)
     return newBook;
-
   };
 
 function displayBooks () {
@@ -34,6 +31,7 @@ function displayBooks () {
 
     const card = document.createElement('div');
     card.classList.add('card');
+    card.dataset.id = book.id;
 
     const title = document.createElement('h3');
     title.classList.add('title');
@@ -54,13 +52,22 @@ function displayBooks () {
       displayBooks();
     });
 
+    const deleteButton = document.createElement('button');
+    deleteButton.classList.add('delete-button');
+    deleteButton.textContent = 'Remove';
+    deleteButton.addEventListener('click', () => {
+    myLibrary = myLibrary.filter((item) => item.id != book.id);
+    displayBooks();
+    });
+
     card.appendChild(title);
     card.appendChild(author);
     card.appendChild(pages);
     card.appendChild(read);
+    card.appendChild(deleteButton);
     container.appendChild(card);
 
-  })
+  });
 };
 
 const dialog = document.querySelector('#book-dialog');
@@ -87,4 +94,6 @@ bookForm.addEventListener('submit', (event) => {
   addBookToLibrary(title, author, pages, read);
   displayBooks();
 
+  bookForm.reset();
+  dialog.close();
 });
